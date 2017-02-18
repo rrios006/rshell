@@ -44,11 +44,25 @@ void execute(char *x[])
 			
 int main(int argc, char *argv[])
 {
+	//get user login and hostname
+	string log = getlogin();
+	char hostname[100];
+	if (login.empty()){
+		perror("login failed");
+	}
+	if(gethostname(hostname, sizeof hostname))
+		perror("hostname failed");
+	}
+	cout << login << '@' << hostname;
+	
+	//always start with dollar sign
 	cout << "$ ";
+	
+	//get input
 	for (int i = 0; i < argc; i++)
 	{
   		//will get every input
-		char *input;
+		string *input;
 		input=argv[i];
 
 		//check for ;
