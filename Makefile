@@ -6,4 +6,4 @@ all: rshell
 
 rshell:
 	mkdir -p bin
-	$(COMPLIER) $(CFLAG) src/main.cpp -0 bin/rshell
+	$(COMPLIER) $(CFLAG) ./src/rshell.cpp -0 ./bin/rshell
