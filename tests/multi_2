@@ -1,0 +1,6 @@
+echo mistake && happy
+ls && echo alright
+cat hello && ls -a
+help && echo stuff 
+&&
+exit

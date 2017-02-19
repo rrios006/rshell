@@ -1,0 +1,11 @@
+echo George #Washington
+ls -a
+ls -l
+#mkdir f
+#echo hello
+# # # # #
+mkdir test #touch test
+rm -r test
+echo this is a test# for shell
+exit
+

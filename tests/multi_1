@@ -1,0 +1,5 @@
+echo hello; echo bye
+ls ; ls -l
+ls -a;
+mkdir test; rmdir test;
+exit

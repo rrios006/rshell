@@ -1,0 +1,5 @@
+echo free || echo cool
+mkdir dog || ls
+touch || echo me
+||
+exit

@@ -1,0 +1,6 @@
+ls -l
+echo food is good
+echo this is a test still
+mkdir fools
+rmdir fools
+

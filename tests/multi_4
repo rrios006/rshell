@@ -1,0 +1,5 @@
+ls -a; echo hello && mkdir test || echo world;
+git status
+ls -l; ls && echo so many lists
+echo dogs are cool || rmdir test && help
+exit

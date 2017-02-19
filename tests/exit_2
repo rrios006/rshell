@@ -1,0 +1,4 @@
+ech0 || exit
+nope && exit
+ls; exit;
+exit
