@@ -9,6 +9,7 @@
 #include <pwd.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <limits.h>
 
 #include <cstdio>
 #include <cstring>
@@ -22,7 +23,7 @@ using namespace std;
 
 void exit(); // used to end shell
 // excute command
-void execute(char *x[])
+bool execute(char *x[])
 {
 	int status;
 	pid_t pid= fork();
@@ -38,41 +39,86 @@ void execute(char *x[])
 	}
 	else {
 		waitpid(pid,&status,0);
+		if(status > 0)
+			return false;
+		else if(WEXITSTATUS(status) == 0)
+			return true;
+		else if(WEXITSTATUS(status) == 1)
+			return false;
 	}
 }
-			
-			
-int main(int argc, char *argv[])
+void connected(char *x[], vector <int> c, int count)
+{
+	c.clear();
+	for(int i = 0; i < count; i++){
+		if(x[i] == "&&"){
+			c.push_back(1);
+		}
+		else if(x[i] == "||"){
+                        c.push_back(2);
+		}
+		else{
+			c.push_back(0);
+		}
+	}		
+}			
+int main()
 {
 	//get user login and hostname
-	string log = getlogin();
-	char hostname[100];
-	if (login.empty()){
+	string log;
+	log = getlogin();
+	char hostname[HOST_NAME_MAX];
+	if (log==""){
 		perror("login failed");
 	}
-	if(gethostname(hostname, sizeof hostname))
+	if(gethostname(hostname, sizeof hostname)){
 		perror("hostname failed");
 	}
-	cout << login << '@' << hostname;
 	
-	//always start with dollar sign
-	cout << "$ ";
 	
 	//get input
-	for (int i = 0; i < argc; i++)
-	{
-  		//will get every input
-		string *input;
-		input=argv[i];
+	bool run = true;
+	string input;
+	while(run){
+  		//output user and login
+		cout << log << '@' << hostname << " $ ";
+	
+		//will get every input before a newline
+		getline(cin,input);
+		
+		//check for comments
+		if(input.find('#') != string::npos){
+                        input.erase(input.find('#'), input.size());
+                }
 
 		//check for ;
-		if(strchr(input,';')-input){
-			int in = strchr(input,';')-input;
-			input[in] = '\0';
-		}
-        	
+		if(input.find(';') != string::npos){
+			std::replace(input.begin(), input.end(), ';', '\0');
+		}	
+	
 		//check for && a
-		execute(input);		 
+		char c[1024];
+		strncpy(c, input.c_str(), sizeof(c));
+		c[sizeof(c)-1]=0;
+		vector <int> conn;
+		char **forkn = new char *[1024];
+		char *tok = strtok(c, " ");
+		int count = 0;
+		while(tok != NULL){
+			forkn[count] = tok;
+			count++;
+			tok = strtok(NULL," ");
+		}
+		forkn[count]=NULL;
+		connected(forkn, conn, count);
+		for(int j = 0; j < count; j++){
+			if(forkn[j]=="exit"){
+				run=false;
+				break;
+			}
+			execute(forkn);	
+		}	 			 
 	}
+	return 0;
 }
         	
