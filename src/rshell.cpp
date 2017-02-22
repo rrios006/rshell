@@ -23,7 +23,7 @@ using namespace std;
 
 void exit(); // used to end shell
 // excute command
-bool execute(char *x[])
+void execute(char *x[])
 {
 	int status;
 	pid_t pid= fork();
@@ -39,15 +39,9 @@ bool execute(char *x[])
 	}
 	else {
 		waitpid(pid,&status,0);
-		if(status > 0)
-			return false;
-		else if(WEXITSTATUS(status) == 0)
-			return true;
-		else if(WEXITSTATUS(status) == 1)
-			return false;
 	}
 }
-void connected(char *x[], vector <int> c, int count)
+/*void connected(char *x[], vector <int> c, int count)
 {
 	c.clear();
 	for(int i = 0; i < count; i++){
@@ -61,7 +55,7 @@ void connected(char *x[], vector <int> c, int count)
 			c.push_back(0);
 		}
 	}		
-}			
+}*/
 int main()
 {
 	//get user login and hostname
@@ -74,8 +68,7 @@ int main()
 	if(gethostname(hostname, sizeof hostname)){
 		perror("hostname failed");
 	}
-	
-	
+		
 	//get input
 	bool run = true;
 	string input;
@@ -110,14 +103,14 @@ int main()
 			tok = strtok(NULL," ");
 		}
 		forkn[count]=NULL;
-		connected(forkn, conn, count);
-		for(int j = 0; j < count; j++){
-			if(forkn[j]=="exit"){
+		//connected(forkn, conn, count);
+	//	for(int j = 0; j < count; j++){
+			if(strcmp(forkn[0],"exit")==0){
 				run=false;
 				break;
 			}
 			execute(forkn);	
-		}	 			 
+	//	}	 			 
 	}
 	return 0;
 }

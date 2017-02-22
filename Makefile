@@ -4,6 +4,6 @@ COMPILER = g++
 
 all: rshell
 
-rshell:
-	mkdir -p bin
-	$(COMPLIER) $(CFLAG) ./src/rshell.cpp -0 ./bin/rshell
+rshell: 
+	$(COMPILER) $(CFLAG) ./src/rshell.cpp -o ./bin/rshell
+
