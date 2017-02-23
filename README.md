@@ -15,6 +15,13 @@ This assignment is about remaking a basic version of shell that is able to handl
 
 #Bugs
 Connectors:
-	I could not get the connectors work besides ';'
-	I don't have errors coming when a connector is first
-Error messages could use some work
+
+	I could not get the connectors work besides ';'.
+
+	I don't have errors coming when a connector is first.
+
+	';' doesn't work when echo command is the first command.
+
+Exit:
+
+	Exit only works with first command.

@@ -1,4 +1,4 @@
-opyright (c) 2017 , Ricardo Rios
+Copyright (c) 2017 , Ricardo Rios
 
 All rights reserved.
 
