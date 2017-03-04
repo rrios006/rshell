@@ -15,6 +15,10 @@ This assignment is about remaking a basic version of shell that is able to handl
 
 #Bugs
 Connectors:
+
 	I could not get the connectors work besides ';'
+
 	I don't have errors coming when a connector is first
-Error messages could use some work
+	
+
+	Exit function only works on first
