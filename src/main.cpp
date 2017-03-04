@@ -19,6 +19,8 @@
 #include <vector>
 #include <algorithm>
 
+using namespace std;
+
 int main()
 {
 	//get user login and hostname
