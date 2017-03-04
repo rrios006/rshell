@@ -53,9 +53,7 @@ int main()
 		strncpy(c, input.c_str(), sizeof(c));
 		c[sizeof(c)-1]=0;
 		vector <string> commtree;
-		char **forkn = new char *[1024];
 		char *tok = strtok(c, " ");
-		int count = 0;
 		for (i = 0; tok != NULL; i++) {
     		while(tok != NULL){
     			break;
@@ -72,7 +70,6 @@ int main()
 		    }
     		tok = strtok(NULL, " ");
 		}
-		forkn[count]=NULL;
 		
 		if(strcmp(forkn[0],"exit")==0){
 				run=false;
