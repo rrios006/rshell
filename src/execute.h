@@ -26,19 +26,10 @@ using namespace std;
 
 class execute {
     public:
-        bool execute(vector<string>);
+        bool execute(char **forkn);
 };
 
-bool execute::execute(vector<string> command){
-    //quick check for exit command
-    if(command.at(0) == "exit") {
-        exit(0);
-    }
-    char *forkn[command.size() + 1];
-    int count = 0;
-    for (count = 0; count < (int)command.size(); count++) {
-        forkn[i] = (char*)command.at(count).c_str();
-    }
+bool execute::execute(char **forkn){
     int status = 0;
 	pid_t pid= fork();
 	if (pid < 0){
