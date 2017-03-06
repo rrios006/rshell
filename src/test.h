@@ -50,7 +50,7 @@ bool test::test(vector<string> command){
         cout << "(False)" << endl;
         return false;
     }
-    if(((command.at(1) == '-e' || !flag) && path.st_mode) || (command.at(1) == '-f' && S_ISREG(path.st_mode)) || (command.at(1) == '-d' &&S_ISDIR(path.st_mode))) {
+    if(((command.at(1) == '-e' || !flag) && path.st_mode) || (command.at(1) == '-f' && S_ISREG(path.st_mode)) || (command.at(1) == '-d' && S_ISDIR(path.st_mode))) {
         cout << "(True)" << endl;
         return true;
     }

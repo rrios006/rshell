@@ -26,7 +26,7 @@ using namespace std;
 
 class execute {
     public:
-        bool execute(char **forkn);
+        bool execute(char **);
 };
 
 bool execute::execute(char **forkn){

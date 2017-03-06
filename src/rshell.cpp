@@ -27,6 +27,7 @@ bool run(vector<string> c, char** f) {
     bool parth = false;
     bool passed;
     int loop;
+    execute e;
     unsigned int i = 0;
     while(i < c.size()) {
     	if(c.at(i) == "exit") {
@@ -64,7 +65,7 @@ bool run(vector<string> c, char** f) {
     		if(!test){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = execute(f);
+    				passed = e.execute(f);
     			}
     			else{
     				parth = false;
@@ -81,7 +82,7 @@ bool run(vector<string> c, char** f) {
     		if(!test){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = execute(f);
+    				passed = e.execute(f);
     			}
     			else{
     				parth = false;
@@ -104,7 +105,7 @@ bool run(vector<string> c, char** f) {
     		if(!test){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = execute(f);
+    				passed = e.execute(f);
     			}
     			else{
     				parth = false;
@@ -154,12 +155,12 @@ bool run(vector<string> c, char** f) {
 		}
 		else {
 			if(!test){
-				f[loop] = (char*)v.at(i)c_str();
+				f[loop] = (char*)v.at(i).c_str();
 				loop++;
 				f[loop] = 0;
 				i++;
 				if(i >= v.size()) {
-					passed = execute(f);
+					passed = e.execute(f);
 					break;
 				}
 			}
@@ -208,7 +209,7 @@ int main()
 		c[sizeof(c)-1]=0;
 		vector <string> commtree;
 		char *tok = strtok(c, " ");
-		for (i = 0; tok != NULL; i++) {
+		for (unsigned i = 0; tok != NULL; i++) {
     		while(tok != NULL){
     			break;
     		}
@@ -264,10 +265,10 @@ int main()
 		    }
     		tok = strtok(NULL, " ");
 		}
-		if(command.at(0) == "exit") {
+		if(commtree.at(0) == "exit") {
             exit(0);
         }
-		char *forkn[command.size() + 1]
+		char *forkn[commtree.size() + 1];
 		
 		run(commtree,forkn);
 	}
