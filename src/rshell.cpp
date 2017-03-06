@@ -149,7 +149,7 @@ bool run(vector<string> c, char** f) {
 				i++;
 				if(i == c.size()-1) {
 					perror("No end parathesis");
-					exit(0);
+					exit(1);
 				}
 			}
 			passed = run(parenthesis, f);
