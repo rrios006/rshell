@@ -18,44 +18,165 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include "test.h"
+#include "execute.h"
 
 using namespace std;
 
-void exit(); // used to end shell
-// excute command
-void execute(char *x[])
-{
-	int status;
-	pid_t pid= fork();
-	if (pid < 0){
-		perror("Forking child process failed");
-		exit(1);
-	}
-	else if (pid == 0) {
-		if (execvp(x[0], x) < 0) {
-			perror("Execute failed");
-			exit(1);
+bool run(vector<string> c, char** f) {
+    bool testck = false;
+    bool parth = false;
+    bool passed;
+    int loop;
+    unsigned int i = 0;
+    while(i < c.size()) {
+    	if(c.at(i) == "exit") {
+    		cout << "Exiting" << endl;
+    		exit(1);
+    	}
+    	if(c.at(i) == "test" || c.at(i) == "[") {
+    		i++;
+    		vector<string> testcom;
+    		if(c.at(i).find('-') != string::npos) {
+    			testcom.push_back(c.at(i));
+    			i++;
+    		}
+    		else{
+    			testcom.push_back("");
+    		}
+    		testcom.push_back(c.at(i));
+    		i++;
+    		passed = tes(testcom);
+    		if(i >= c.size()) {
+    			break;
+    		}
+    		else if(c.at(i) == "]") {
+    			i++;
+    			if(i >= c.size()) {
+    				break;
+    			}
+    		}
+    		testck = true;
+    		loop = 0;
+    	}
+    	//in case of semicolon, just act as if new array
+    	else if(c.at(i) == ";") {
+    		if(!testck){
+	    		if(!parth) {
+    				f[loop] = 0;
+    				passed = exec(f);
+    			}
+    			else{
+    				parth = false;
+    			}
+    		}
+    		else{
+    			testck = false;
+    		}
+    		loop = 0;
+    		i++;
+    	}
+    	//case of connector "&&", will only run if last command ran
+    	if(c.at(i) == "&&") {
+    		if(!testck){
+	    		if(!parth) {
+    				f[loop] = 0;
+    				passed = exec(f);
+    			}
+    			else{
+    				parth = false;
+    			}
+    		}
+    		else{
+    			testck = false;
+    		}
+    		
+    		if(!passed) {
+    			break;
+    		}
+    		else{
+    			loop = 0;
+    			i++;
+    		}
+    	}
+    	//case of connector "||", will only run if last command didn't run
+    	else if(c.at(i)=="||") {
+    		if(!testck){
+	    		if(!parth) {
+    				f[loop] = 0;
+    				passed = exec(f);
+    			}
+    			else{
+    				parth = false;
+    			}
+    		}
+    		else{
+    			testck = false;
+    		}
+    		
+    		if(!passed) {
+    			loop = 0;
+    			i++;
+    		}
+    		else{
+    			while(i < c.size()) {
+    				if(c.at(i) == "&&" || c.at(i) == ";") {
+    					loop = 0;
+    					i++;
+    					break;
+    				}
+    				else if(c.at(i) == "(") {
+    					while(c.at(i) != ")" && i < c.size()) {
+    						i++;
+    					}
+    					i++;
+    					break;
+    				}
+    				i++;
+    			}
+    			//check if end of array
+    			if(i >= c.size()) {
+    				break;
+    			}
+    		}
+    	}
+		else if(c.at(i) == "(") {
+			vector<string> parenthesis;
+			parth = true;
+			++i;
+			while(c.at(i) != ")"){
+				parenthesis.push_back(c.at(i));
+				i++;
+				if(i == c.size()-1) {
+					perror("No end parathesis");
+					exit(1);
+				}
+			}
+			passed = run(parenthesis, f);
+			i++;
+			loop = 0;
 		}
-	}
-	else {
-		waitpid(pid,&status,0);
-	}
+		else {
+			if(!testck){
+				f[loop] = (char*)c.at(i).c_str();
+				loop++;
+				f[loop] = 0;
+				i++;
+				if(i >= c.size()) {
+					passed = exec(f);
+					break;
+				}
+			}
+			else{
+				testck = false;
+				break;
+			}
+		}
+    }
+    
+    return passed;
 }
-/*void connected(char *x[], vector <int> c, int count)
-{
-	c.clear();
-	for(int i = 0; i < count; i++){
-		if(x[i] == "&&"){
-			c.push_back(1);
-		}
-		else if(x[i] == "||"){
-                        c.push_back(2);
-		}
-		else{
-			c.push_back(0);
-		}
-	}		
-}*/
+
 int main()
 {
 	//get user login and hostname
@@ -70,48 +191,88 @@ int main()
 	}
 		
 	//get input
-	bool run = true;
+	bool pro = true;
 	string input;
-	while(run){
+	while(pro){
   		//output user and login
 		cout << log << '@' << hostname << " $ ";
 	
 		//will get every input before a newline
 		getline(cin,input);
 		
-		//check for comments
+		//check for comments and deletes anything after '#'
 		if(input.find('#') != string::npos){
-                        input.erase(input.find('#'), input.size());
-                }
-
-		//check for ;
-		if(input.find(';') != string::npos){
-			std::replace(input.begin(), input.end(), ';', '\0');
-		}	
-	
-		//check for && a
+            input.erase(input.find('#'), input.size());
+        }
+		
+		//takes input and makes vector of tokens in proper order for running
+		//parsing
 		char c[1024];
 		strncpy(c, input.c_str(), sizeof(c));
 		c[sizeof(c)-1]=0;
-		vector <int> conn;
-		char **forkn = new char *[1024];
+		vector <string> commtree;
 		char *tok = strtok(c, " ");
-		int count = 0;
-		while(tok != NULL){
-			forkn[count] = tok;
-			count++;
-			tok = strtok(NULL," ");
+		for (unsigned i = 0; tok != NULL; i++) {
+    		while(tok != NULL){
+    			break;
+    		}
+    		string command = string(tok);
+    		//This will check for semicolons
+    		if(command.find(';') != string::npos) {
+			    command.erase(command.begin() + command.size()-1);
+			    commtree.push_back(command);
+			    commtree.push_back(";");
+		    }
+		    //this will check for parathesises
+		    else if(command.find(')') != string::npos) {
+		    	if(command.size() == 1) {
+		    		commtree.push_back(command);
+		    	}
+		    	else{
+		    		command.erase(command.begin() + command.size()-1);
+			    	commtree.push_back(command);
+			    	commtree.push_back(")");
+		    	}
+		    }
+		    else if(command.find('(') != string::npos) {
+		    	if(command.size() == 1) {
+		    		commtree.push_back(command);
+		    	}
+		    	else{
+		    		command.erase(command.begin());
+			    	commtree.push_back("(");
+			    	commtree.push_back(command);
+		    	}
+		    }
+		    //for test function brackets
+		    else if(command.find(']') != string::npos) {
+		    	if(command.size() == 1) {
+		    		commtree.push_back(command);
+		    	}
+		    	else{
+		    		command.erase(command.begin() + command.size()-1);
+			    	commtree.push_back(command);
+			    	commtree.push_back("]");
+		    	}
+		    }
+		    else if(command.find('[') != string::npos) {
+		    	if(command.size() == 1) {
+		    		commtree.push_back(command);
+		    	}
+		    	else{
+		    		command.erase(command.begin());
+			    	commtree.push_back("[");
+			    	commtree.push_back(command);
+		    	}
+		    }
+		    else {
+		        commtree.push_back(command);
+		    }
+    		tok = strtok(NULL, " ");
 		}
-		forkn[count]=NULL;
-		//connected(forkn, conn, count);
-	//	for(int j = 0; j < count; j++){
-			if(strcmp(forkn[0],"exit")==0){
-				run=false;
-				break;
-			}
-			execute(forkn);	
-	//	}	 			 
+		char **forkn = new char *[1024];
+		
+		run(commtree,forkn);
 	}
 	return 0;
 }
-        	

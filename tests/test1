@@ -1,0 +1,7 @@
+test ../src/
+test -f ../nope/
+test -t ../nope/
+[ -c cat.cpp ]
+test -f ../src/main.cpp
+[ ../Makefile ]
+exit
