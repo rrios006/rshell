@@ -32,7 +32,7 @@ bool run(vector<string> c, char** f) {
     while(i < c.size()) {
     	if(c.at(i) == "exit") {
     		cout << "Exiting" << endl;
-    		exit(0);
+    		exit(1);
     	}
     	if(c.at(i) == "test" || c.at(i) == "[") {
     		i++;
@@ -268,9 +268,6 @@ int main()
 		    }
     		tok = strtok(NULL, " ");
 		}
-		if(commtree.at(0) == "exit") {
-            exit(0);
-        }
 		char **forkn = new char *[1024];
 		
 		run(commtree,forkn);

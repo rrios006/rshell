@@ -36,12 +36,12 @@ bool tes(vector<string> command){
     bool flag;
     int place = 0;
     
-    if(command.at(1) != "-e" || command.at(1) != "-f" || command.at(1) != "-d") {
-        flag = false;
-    }
-    else {
+    if(command.at(1) == "-e" || command.at(1) == "-f" || command.at(1) == "-d") {
         flag = true;
         place++;
+    }
+    else {
+        flag = false;
     }
     
     if(!flag && command.at(1) != "") {
