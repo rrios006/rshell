@@ -37,8 +37,6 @@ bool run(vector<string> c, char** f) {
     	if(c.at(i) == "test" || c.at(i) == "[") {
     		i++;
     		vector<string> testcom;
-    		testcom.push_back(c.at(i));
-    		i++;
     		if(c.at(i).find('-') != string::npos) {
     			testcom.push_back(c.at(i));
     			i++;
@@ -46,6 +44,8 @@ bool run(vector<string> c, char** f) {
     		else{
     			testcom.push_back("");
     		}
+    		testcom.push_back(c.at(i));
+    		i++;
     		passed = tes(testcom);
     		if(i >= c.size()) {
     			break;
@@ -223,6 +223,7 @@ int main()
 			    commtree.push_back(command);
 			    commtree.push_back(";");
 		    }
+		    //this will check for parathesises
 		    else if(command.find(')') != string::npos) {
 		    	if(command.size() == 1) {
 		    		commtree.push_back(command);
@@ -243,6 +244,7 @@ int main()
 			    	commtree.push_back(command);
 		    	}
 		    }
+		    //for test function brackets
 		    else if(command.find(']') != string::npos) {
 		    	if(command.size() == 1) {
 		    		commtree.push_back(command);

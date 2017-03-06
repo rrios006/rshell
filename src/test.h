@@ -36,7 +36,7 @@ bool tes(vector<string> command){
     bool flag;
     int place = 0;
     
-    if(command.at(1) == "-e" || command.at(1) == "-f" || command.at(1) == "-d") {
+    if(command.at(0) == "-e" || command.at(0) == "-f" || command.at(0) == "-d") {
         flag = true;
         place++;
     }
@@ -44,7 +44,7 @@ bool tes(vector<string> command){
         flag = false;
     }
     
-    if(!flag && command.at(1) != "") {
+    if(!flag && command.at(0) != "") {
         perror("The invalid flag given");
         return false;
     }
