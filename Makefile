@@ -2,9 +2,10 @@ CFLAG = -Wall -Werror -ansi -pedantic
 
 COMPILER = g++
 
-EXEC = test.out
+EXEC = rshell
 
-SOURCES = $(wildcard*.cpp)
+SOURCES = $(wildcard src/*.cpp)
+
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
