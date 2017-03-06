@@ -23,7 +23,7 @@
 using namespace std;
 
 bool run(vector<string> c, char** f) {
-    bool test = false;
+    bool testck = false;
     bool parth = false;
     bool passed;
     int loop;
@@ -47,7 +47,7 @@ bool run(vector<string> c, char** f) {
     		else{
     			testcom.push_back("");
     		}
-    		passed = t.test(testcom);
+    		passed = t.tes(testcom);
     		if(i >= c.size()) {
     			break;
     		}
@@ -57,39 +57,39 @@ bool run(vector<string> c, char** f) {
     				break;
     			}
     		}
-    		test = true;
+    		testck = true;
     		loop = 0;
     	}
     	//in case of semicolon, just act as if new array
     	else if(c.at(i) == ";") {
-    		if(!test){
+    		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.execute(f);
+    				passed = e.exec(f);
     			}
     			else{
     				parth = false;
     			}
     		}
     		else{
-    			test = false;
+    			testck = false;
     		}
     		loop = 0;
     		i++;
     	}
     	//case of connector "&&", will only run if last command ran
     	if(c.at(i) == "&&") {
-    		if(!test){
+    		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.execute(f);
+    				passed = e.exec(f);
     			}
     			else{
     				parth = false;
     			}
     		}
     		else{
-    			test = false;
+    			testck = false;
     		}
     		
     		if(!passed) {
@@ -101,18 +101,18 @@ bool run(vector<string> c, char** f) {
     		}
     	}
     	//case of connector "||", will only run if last command didn't run
-    	else if(v.at(i)=="||") {
-    		if(!test){
+    	else if(c.at(i)=="||") {
+    		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.execute(f);
+    				passed = e.exec(f);
     			}
     			else{
     				parth = false;
     			}
     		}
     		else{
-    			test = false;
+    			testck = false;
     		}
     		
     		if(!passed) {
@@ -120,14 +120,14 @@ bool run(vector<string> c, char** f) {
     			i++;
     		}
     		else{
-    			while(i < v.size()) {
-    				if(v.at(i) == "&&" || v.at(i) == ";") {
+    			while(i < c.size()) {
+    				if(c.at(i) == "&&" || c.at(i) == ";") {
     					loop = 0;
     					i++;
     					break;
     				}
-    				else if(v.at(i) == "(") {
-    					while(v.at(i) != ")" && i < v.size()) {
+    				else if(c.at(i) == "(") {
+    					while(c.at(i) != ")" && i < c.size()) {
     						i++;
     					}
     					i++;
@@ -136,17 +136,17 @@ bool run(vector<string> c, char** f) {
     				i++;
     			}
     			//check if end of array
-    			if(i >= v.size()) {
+    			if(i >= c.size()) {
     				break;
     			}
     		}
     	}
-		else if(v.at(i) == "(") {
+		else if(c.at(i) == "(") {
 			vector<string> parenthesis;
 			parth = true;
 			++i;
-			while(v.at(i) != ")"){
-				parenthesis.push_back(v.at(i));
+			while(c.at(i) != ")"){
+				parenthesis.push_back(c.at(i));
 				i++;
 			}
 			passed = run(parenthesis, f);
@@ -154,18 +154,18 @@ bool run(vector<string> c, char** f) {
 			loop = 0;
 		}
 		else {
-			if(!test){
-				f[loop] = (char*)v.at(i).c_str();
+			if(!testck){
+				f[loop] = (char*)c.at(i).c_str();
 				loop++;
 				f[loop] = 0;
 				i++;
-				if(i >= v.size()) {
-					passed = e.execute(f);
+				if(i >= c.size()) {
+					passed = e.exec(f);
 					break;
 				}
 			}
 			else{
-				test = false;
+				testck = false;
 				break;
 			}
 		}

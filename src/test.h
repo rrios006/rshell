@@ -27,10 +27,11 @@ using namespace std;
 
 class test : public execute {
     public:
-        bool test(vector<string>);
+        test();
+        bool tes(vector<string>);
 };
 
-bool test::test(vector<string> command){
+bool test::tes(vector<string> command){
     struct stat path;
     bool flag;
     
@@ -46,10 +47,11 @@ bool test::test(vector<string> command){
         return false;
     }
     
-    if(stat(data.c_str(), &path) == -1) {
+    if(stat((char*)command.at(0).c_str(), &path) == -1) {
         cout << "(False)" << endl;
         return false;
     }
+    
     if(((command.at(1) == '-e' || !flag) && path.st_mode) || (command.at(1) == '-f' && S_ISREG(path.st_mode)) || (command.at(1) == '-d' && S_ISDIR(path.st_mode))) {
         cout << "(True)" << endl;
         return true;

@@ -26,10 +26,11 @@ using namespace std;
 
 class execute {
     public:
-        bool execute(char **);
+    	execute();
+        bool exec(char **);
 };
 
-bool execute::execute(char **forkn){
+bool execute::exec(char **forkn){
     int status = 0;
 	pid_t pid= fork();
 	if (pid < 0){
