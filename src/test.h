@@ -22,24 +22,26 @@
 #include <vector>
 #include <algorithm>
 
-#include "execute.h"
+
 using namespace std;
 
-class test : public execute {
+/* class test : public execute {
     public:
         test();
         bool tes(vector<string>);
 };
-
-bool test::tes(vector<string> command){
+*/
+bool tes(vector<string> command){
     struct stat path;
     bool flag;
+    int place = 0;
     
-    if(command.at(1) != "-e" && command.at(1) != "-f" && command.at(1) != "-d") {
+    if(command.at(1) != "-e" || command.at(1) != "-f" || command.at(1) != "-d") {
         flag = false;
     }
     else {
         flag = true;
+        place++;
     }
     
     if(!flag && command.at(1) != "") {
@@ -47,8 +49,8 @@ bool test::tes(vector<string> command){
         return false;
     }
     
-    if(stat((char*)command.at(0).c_str(), &path) == -1) {
-        cout << "(False)" << endl;
+    if(stat((char*)command.at(place).c_str(), &path) == -1) {
+        perror("Not accessible");
         return false;
     }
     

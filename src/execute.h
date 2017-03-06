@@ -24,13 +24,13 @@
 
 using namespace std;
 
-class execute {
+/* class execute {
     public:
     	execute();
         bool exec(char **);
-};
+};*/
 
-bool execute::exec(char **forkn){
+bool exec(char **forkn){
     int status = 0;
 	pid_t pid= fork();
 	if (pid < 0){

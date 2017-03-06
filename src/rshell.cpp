@@ -19,6 +19,7 @@
 #include <vector>
 #include <algorithm>
 #include "test.h"
+#include "execute.h"
 
 using namespace std;
 
@@ -27,7 +28,6 @@ bool run(vector<string> c, char** f) {
     bool parth = false;
     bool passed;
     int loop;
-    execute e;
     unsigned int i = 0;
     while(i < c.size()) {
     	if(c.at(i) == "exit") {
@@ -35,7 +35,6 @@ bool run(vector<string> c, char** f) {
     		exit(0);
     	}
     	if(c.at(i) == "test" || c.at(i) == "[") {
-    		test t;
     		i++;
     		vector<string> testcom;
     		testcom.push_back(c.at(i));
@@ -47,7 +46,7 @@ bool run(vector<string> c, char** f) {
     		else{
     			testcom.push_back("");
     		}
-    		passed = t.tes(testcom);
+    		passed = tes(testcom);
     		if(i >= c.size()) {
     			break;
     		}
@@ -65,7 +64,7 @@ bool run(vector<string> c, char** f) {
     		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.exec(f);
+    				passed = exec(f);
     			}
     			else{
     				parth = false;
@@ -82,7 +81,7 @@ bool run(vector<string> c, char** f) {
     		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.exec(f);
+    				passed = exec(f);
     			}
     			else{
     				parth = false;
@@ -105,7 +104,7 @@ bool run(vector<string> c, char** f) {
     		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
-    				passed = e.exec(f);
+    				passed = exec(f);
     			}
     			else{
     				parth = false;
@@ -148,6 +147,10 @@ bool run(vector<string> c, char** f) {
 			while(c.at(i) != ")"){
 				parenthesis.push_back(c.at(i));
 				i++;
+				if(i == c.size()-1) {
+					perror("No end parathesis");
+					exit(0);
+				}
 			}
 			passed = run(parenthesis, f);
 			i++;
@@ -160,7 +163,7 @@ bool run(vector<string> c, char** f) {
 				f[loop] = 0;
 				i++;
 				if(i >= c.size()) {
-					passed = e.exec(f);
+					passed = exec(f);
 					break;
 				}
 			}
@@ -268,7 +271,7 @@ int main()
 		if(commtree.at(0) == "exit") {
             exit(0);
         }
-		char *forkn[commtree.size() + 1];
+		char **forkn = new char *[1024];
 		
 		run(commtree,forkn);
 	}
