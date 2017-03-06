@@ -2,25 +2,11 @@ CFLAG = -Wall -Werror -ansi -pedantic
 
 COMPILER = g++
 
-EXEC = rshell
+all:
+	mkdir -p ./bin
+	$(COMPILER) $(CFLAG) ./src/rshell.cpp ./src/test.h -o ./bin/rshell
 
-SOURCES = $(wildcard *.cpp)
-
-
-OBJECTS = $(SOURCES:.cpp=.o)
-
-BIN = ./src/rshell.cpp -o ./bin/rshell
-
-$(EXEC): $(OBJECTS)
-
-	$(COMPILER) $(OBJECTS) -o $(EXEC)
-
-	$(BIN)
+rshell: 
+	$(COMPILER) $(CFLAG) ./src/rshell.cpp -o ./bin/rshell
 
 
-
-clean:
-
-	rm -f $(EXEC) $(OBJECTS)
-
-	rm -rf bin
