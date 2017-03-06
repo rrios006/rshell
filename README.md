@@ -1,24 +1,25 @@
 # rshell
 
-This assignment is about remaking a basic version of shell that is able to handle connectors such as &&, ||, and ;. We must also make our own version of an exit function.
+This assignment builds on the past one. Rshell should now be able to use test function and handle parathensis. I will also know precedence.
 
 #Run program
 1 open terminal and enter  $ git clone https://github.com/rrios006/rshell.git
 
 2 enter $ cd rshell
 
-3 enter $ git checkout hw2
+3 enter $ git checkout hw3
 
 4 make exe by entering  $ make 
 
 5 execute $ bin/rshell
 
 #Bugs
-Connectors:
+Precedence:
 
-	I could not get the connectors work besides ';'
+	Not being able to handle double parathensis to well.
 
-	I don't have errors coming when a connector is first
+Test:
 	
-
-	Exit function only works on first
+	Mulitple tests can get mess and doesn't always work.
+	
+There is a limit to how many commands you can do but don't think it should be a problem.	

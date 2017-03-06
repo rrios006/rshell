@@ -1,0 +1,5 @@
+test -e ../bin/ && echo “path exists”
+[ -f ../bin/ ] && echo “path exists”
+test -e ../test/ && echo “path exists”
+[ -d ../test/ ] && echo “path exists”
+exit
