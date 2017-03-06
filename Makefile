@@ -4,24 +4,18 @@ COMPILER = g++
 
 EXEC = rshell
 
-SOURCES = $(wildcard src/*.cpp)
+SOURCES = $(wildcard *.cpp)
 
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-BIN = mkdir -p bin src/rshell.cpp bin/rshell
+BIN = ./src/rshell.cpp -o ./bin/rshell
 
 $(EXEC): $(OBJECTS)
 
 	$(COMPILER) $(OBJECTS) -o $(EXEC)
 
 	$(BIN)
-
-
-
-%.o: %.cpp
-
-	$(COMPILER) -c $(CFLAGS) $< -o $@
 
 
 

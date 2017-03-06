@@ -43,7 +43,7 @@ bool test::tes(vector<string> command){
     }
     
     if(!flag && command.at(1) != "") {
-        perror("The invalid flag given")
+        perror("The invalid flag given");
         return false;
     }
     
@@ -52,7 +52,7 @@ bool test::tes(vector<string> command){
         return false;
     }
     
-    if(((command.at(1) == '-e' || !flag) && path.st_mode) || (command.at(1) == '-f' && S_ISREG(path.st_mode)) || (command.at(1) == '-d' && S_ISDIR(path.st_mode))) {
+    if(((command.at(1) == "-e" || !flag) && path.st_mode) || (command.at(1) == "-f" && S_ISREG(path.st_mode)) || (command.at(1) == "-d" && S_ISDIR(path.st_mode))) {
         cout << "(True)" << endl;
         return true;
     }
