@@ -1,0 +1,23 @@
+echo "hi" > file1
+ls >> file1 
+echo "bye" >> file1
+
+echo " " > file2
+ls | grep "file" | tr a-z A-Z >> file2
+cat file2
+
+echo " " > file3
+ls -l >> file1 > file3
+cat file1
+cat file3
+
+echo " " > file4
+ls | grep -n "file" > file4
+cat file4
+
+grep "file" < file1
+cat file1
+
+
+
+exit
