@@ -91,8 +91,7 @@ bool redirect(vector<string> piper) {
 		else{
 			single.push_back(piper.at(i));
 		}
-	}
-	
+	}	
 	//check each flag
 	whole.push_back(single);
 	if(In == true){
@@ -111,7 +110,6 @@ bool redirect(vector<string> piper) {
 		whole.pop_back();
 		outfile = true;
 	}
-	
 	for(unsigned x = 0; x < whole.size(); x++){
 		pipe(fds);
 		pid = fork();
