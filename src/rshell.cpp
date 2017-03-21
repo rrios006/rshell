@@ -167,7 +167,7 @@ bool run(vector<string> c, char** f) {
 	else if(i!=c.size()-1){
 		if(c.at(i+1) == "<" || c.at(i+1) == ">" || c.at(i+1) == ">>" || c.at(i+1) == "||"){
 			vector<string> piper;
-			while(i != c.size()+1) {
+			while(i != c.size()-1) {
 				piper.push_back(c.at(i));
 				i++;
 				if(!(c.at(i) == "<" || c.at(i) == ">" || c.at(i) == ">>" || c.at(i) == "||") && !(c.at(i-1) == "<" || c.at(i-1) == ">" || c.at(i-1) == ">>" || c.at(i-1) == "||") ){
