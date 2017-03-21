@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <limits.h>
+#include <stack>
 
 #include <cstdio>
 #include <cstring>
@@ -30,10 +31,13 @@ bool run(vector<string> c, char** f) {
     int loop;
     unsigned int i = 0;
     while(i < c.size()) {
+    	// exit function
     	if(c.at(i) == "exit") {
     		cout << "Exiting" << endl;
-    		exit(1);
+    		return false;
+		exit(0);
     	}
+    	// test function
     	if(c.at(i) == "test" || c.at(i) == "[") {
     		i++;
     		vector<string> testcom;
@@ -76,8 +80,9 @@ bool run(vector<string> c, char** f) {
     		loop = 0;
     		i++;
     	}
+    	
     	//case of connector "&&", will only run if last command ran
-    	if(c.at(i) == "&&") {
+    	else if(c.at(i) == "&&") {
     		if(!testck){
 	    		if(!parth) {
     				f[loop] = 0;
@@ -92,7 +97,8 @@ bool run(vector<string> c, char** f) {
     		}
     		
     		if(!passed) {
-    			break;
+    			return false;
+			break;
     		}
     		else{
     			loop = 0;
@@ -136,27 +142,44 @@ bool run(vector<string> c, char** f) {
     			}
     			//check if end of array
     			if(i >= c.size()) {
-    				break;
+   				break;
     			}
-    		}
+		}
     	}
-		else if(c.at(i) == "(") {
-			vector<string> parenthesis;
-			parth = true;
-			++i;
-			while(c.at(i) != ")"){
-				parenthesis.push_back(c.at(i));
+    		//check for parathesis
+	else if(c.at(i) == "(") {
+		vector<string> parenthesis;
+		parth = true;
+		++i;
+		while(c.at(i) != ")"){
+			parenthesis.push_back(c.at(i));
+			i++;
+			if(i == c.size()-1) {
+				perror("No end parathesis");
+				exit(1);
+			}
+		}
+		passed = run(parenthesis, f);
+		i++;
+		loop = 0;
+	}
+	//check for redirection and makes subvector
+	else if(i!=c.size()-1){
+		if(c.at(i+1) == "<" || c.at(i+1) == ">" || c.at(i+1) == ">>" || c.at(i+1) == "||"){
+			vector<string> piper;
+			while(i != c.size()+1) {
+				piper.push_back(c.at(i));
 				i++;
-				if(i == c.size()-1) {
-					perror("No end parathesis");
-					exit(1);
+				if(!(c.at(i) == "<" || c.at(i) == ">" || c.at(i) == ">>" || c.at(i) == "||") && !(c.at(i-1) == "<" || c.at(i-1) == ">" || c.at(i-1) == ">>" || c.at(i-1) == "||") ){
+					break;
 				}
 			}
-			passed = run(parenthesis, f);
-			i++;
+			passed = redirect(piper);
 			loop = 0;
 		}
-		else {
+	}	
+	
+	else {
 			if(!testck){
 				f[loop] = (char*)c.at(i).c_str();
 				loop++;
@@ -272,7 +295,7 @@ int main()
 		}
 		char **forkn = new char *[1024];
 		
-		run(commtree,forkn);
+		pro=run(commtree,forkn);
 	}
 	return 0;
 }

@@ -15,6 +15,9 @@ This assignment builds on the past one. Rshell should now be able to use test fu
 
 #Bugs
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a0447d19e80d4e45d94ceb98f8c3260e8323bf89
 Precedence:
 
 	Not being able to handle double parathensis to well.
@@ -24,6 +27,7 @@ Test:
 	Mulitple tests can get mess and doesn't always work.
 	
 There is a limit to how many commands you can do but don't think it should be a problem.	
+<<<<<<< HEAD
 =======
 Connectors:
 
@@ -37,3 +41,5 @@ Exit:
 
 	Exit only works with first command.
 >>>>>>> origin
+=======
+>>>>>>> a0447d19e80d4e45d94ceb98f8c3260e8323bf89
