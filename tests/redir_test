@@ -18,6 +18,7 @@ cat file4
 grep "file" < file1
 cat file1
 
-
+cat < LICENSE.md
+wc < LICENSE.md
 
 exit

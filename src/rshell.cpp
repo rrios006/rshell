@@ -165,7 +165,17 @@ bool run(vector<string> c, char** f) {
 	}
 	//check for redirection and makes subvector
 	else if(i!=c.size()-1){
-		if(c.at(i+1) == "<" || c.at(i+1) == ">" || c.at(i+1) == ">>" || c.at(i+1) == "|"){
+		bool except=true;
+		for(unsigned h = i; h != (c.size()-1); h++){
+			if(c.at(h) == ";" || c.at(h) == "||" || c.at(h) == "&&" ){
+				except = false;
+				break;
+			}
+			if(c.at(h) == "<" || c.at(h) == ">" || c.at(h) == ">>" || c.at(h) == "|"){
+				break;
+			}
+		}
+		if(except || c.at(i+1) == "<" || c.at(i+1) == ">" || c.at(i+1) == ">>" || c.at(i+1) == "|"){
 			vector<string> piper;
 			while(i != c.size()) {
 				piper.push_back(c.at(i));
